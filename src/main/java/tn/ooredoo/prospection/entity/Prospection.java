@@ -41,7 +41,7 @@ public class Prospection implements Serializable{
 	private String fullName;
 	
 	@Column(name="contract_number")
-	private Long contractNum;
+	private String contactNum;
 	
 	@Column(name="id_number")
 	private Long numID;
@@ -65,6 +65,11 @@ public class Prospection implements Serializable{
 	
 	@Column(name="longitude")
 	private Double longitude;
+	
+	
+	@Column(name="adresse")
+	private String adresse;
+	
 	
 	@Column(name="zone")
 	private String zone;

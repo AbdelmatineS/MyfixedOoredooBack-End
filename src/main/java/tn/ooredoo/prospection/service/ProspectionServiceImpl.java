@@ -1,6 +1,7 @@
 package tn.ooredoo.prospection.service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,28 @@ public class ProspectionServiceImpl implements IProspectionService {
 	public List<Prospection> getAll() {
 		return (List<Prospection>) pRepo.findByOrderByIdDesc();
 	}
+
+	@Override
+	public Prospection getProspectionByName(String fullName) {
+		Prospection p = pRepo.findByFullName(fullName);
+		return p;
+	}
+
+	@Override
+	public List<Prospection> searchEntities(String attribute, String query) {
+        if ("fullName".equals(attribute)) {
+            return pRepo.findByFullNameContainingIgnoreCase(query);
+        } else if ("zone".equals(attribute)) {
+            return pRepo.findByZoneContainingIgnoreCase(query);
+        } else if ("adresse".equals(attribute)) {
+            return pRepo.findByAdresseContainingIgnoreCase(query);
+        } else if ("numID".equals(attribute)) {
+        	//query = query.replaceAll("[^%\\d]", "");
+            return pRepo.findByNumIDContaining(Long.parseLong(query));
+        }
+
+        return Collections.emptyList();
+    }
+	
 
 }

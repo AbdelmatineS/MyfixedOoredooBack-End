@@ -12,4 +12,9 @@ import tn.ooredoo.prospection.entity.Prospection;
 public interface ProspectionRepository extends JpaRepository<Prospection, Long>{
 
 	List<Prospection> findByOrderByIdDesc();
+	Prospection findByFullName(String fullName);
+    List<Prospection> findByFullNameContainingIgnoreCase(String query);
+    List<Prospection> findByZoneContainingIgnoreCase(String query);
+    List<Prospection> findByAdresseContainingIgnoreCase(String query);
+    List<Prospection> findByNumIDContaining(Long query);
 }
