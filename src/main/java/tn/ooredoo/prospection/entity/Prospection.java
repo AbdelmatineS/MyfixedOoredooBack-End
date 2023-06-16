@@ -40,7 +40,7 @@ public class Prospection implements Serializable{
 	@Column(name="full_name")
 	private String fullName;
 	
-	@Column(name="contract_number")
+	@Column(name="contact_number")
 	private String contactNum;
 	
 	@Column(name="id_number")

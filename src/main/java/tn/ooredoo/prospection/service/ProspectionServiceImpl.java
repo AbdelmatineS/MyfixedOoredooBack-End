@@ -66,7 +66,6 @@ public class ProspectionServiceImpl implements IProspectionService {
         } else if ("adresse".equals(attribute)) {
             return pRepo.findByAdresseContainingIgnoreCase(query);
         } else if ("numID".equals(attribute)) {
-        	//query = query.replaceAll("[^%\\d]", "");
             return pRepo.findByNumIDContaining(Long.parseLong(query));
         }
 
