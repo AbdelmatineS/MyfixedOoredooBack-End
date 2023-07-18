@@ -21,7 +21,7 @@ import tn.ooredoo.prospection.service.IProspectionService;
 
 @RestController
 @RequestMapping("Prospection")
-@CrossOrigin(origins = "http://localhost:8100")
+@CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.47:8100"})
 public class ProspectionController {
 	
 	@Autowired
@@ -69,10 +69,10 @@ public class ProspectionController {
 	}
 	
 	
-	@GetMapping("/getProspectionByName/{fullName}")
+	@GetMapping("/retrieveProspBynumID/{numID}")
 	@ResponseBody
-	Prospection getProspectionByName(@PathVariable String fullName ) {	
-		return pService.getProspectionByName(fullName);
+	public List<Prospection> getProspectionByNumID(@PathVariable Long numID ) {	
+		return pService.getProspectionByNumID(numID);
 	}
 	
 	

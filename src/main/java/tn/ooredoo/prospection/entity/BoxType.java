@@ -1,4 +1,4 @@
-package tn.ooredoo.reservation.entity;
+package tn.ooredoo.prospection.entity;
 
 public enum BoxType {
 	

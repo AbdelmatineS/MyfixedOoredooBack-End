@@ -52,9 +52,8 @@ public class ProspectionServiceImpl implements IProspectionService {
 	}
 
 	@Override
-	public Prospection getProspectionByName(String fullName) {
-		Prospection p = pRepo.findByFullName(fullName);
-		return p;
+	public List<Prospection> getProspectionByNumID(Long numID) {
+		return pRepo.findByNumIDContaining(numID);
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class ProspectionServiceImpl implements IProspectionService {
         } else if ("adresse".equals(attribute)) {
             return pRepo.findByAdresseContainingIgnoreCase(query);
         } else if ("numID".equals(attribute)) {
-            return pRepo.findByNumIDContaining(Long.parseLong(query));
+            //return pRepo.findByNumIDContaining(Long.parseLong(query));
         }
 
         return Collections.emptyList();

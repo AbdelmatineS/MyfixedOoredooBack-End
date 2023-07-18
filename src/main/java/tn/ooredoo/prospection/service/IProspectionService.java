@@ -13,6 +13,6 @@ public interface IProspectionService {
 	public Prospection updateProspection(Prospection p, long id);
 	public void deleteProspection(long id);
 	public List<Prospection> getAll();
-	public Prospection getProspectionByName(String fullName);
+	public List<Prospection> getProspectionByNumID(Long numID);
 	 public List<Prospection> searchEntities(String attribute, String query);
 }

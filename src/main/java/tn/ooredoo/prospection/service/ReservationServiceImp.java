@@ -1,4 +1,4 @@
-package tn.ooredoo.reservation.service;
+package tn.ooredoo.prospection.service;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,9 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import tn.ooredoo.reservation.entity.Reservation;
-import tn.ooredoo.reservation.repository.ReservationRepository;
+import tn.ooredoo.prospection.entity.Reservation;
+import tn.ooredoo.prospection.repository.ReservationRepository;
 
 @Service
 public class ReservationServiceImp implements IReservationService {

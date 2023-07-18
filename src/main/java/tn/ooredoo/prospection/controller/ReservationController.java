@@ -1,4 +1,4 @@
-package tn.ooredoo.reservation.controller;
+package tn.ooredoo.prospection.controller;
 
 import java.util.Base64;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import tn.ooredoo.prospection.entity.Reservation;
+import tn.ooredoo.prospection.service.IReservationService;
 
-import tn.ooredoo.reservation.entity.Reservation;
-import tn.ooredoo.reservation.service.IReservationService;
 
+@CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.47:8100"})
 @RestController
 @RequestMapping("Reservation")
 public class ReservationController {

@@ -1,8 +1,8 @@
-package tn.ooredoo.reservation.service;
+package tn.ooredoo.prospection.service;
 
 import java.util.List;
 
-import tn.ooredoo.reservation.entity.Reservation;
+import tn.ooredoo.prospection.entity.Reservation;
 
 
 public interface IReservationService {
