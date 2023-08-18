@@ -21,7 +21,7 @@ import tn.ooredoo.prospection.service.IProspectionService;
 
 @RestController
 @RequestMapping("Prospection")
-@CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.47:8100"})
+@CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.54:8100"})
 public class ProspectionController {
 	
 	@Autowired

@@ -22,7 +22,7 @@ import tn.ooredoo.prospection.entity.Reservation;
 import tn.ooredoo.prospection.service.IReservationService;
 
 
-@CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.47:8100"})
+@CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.54:8100"})
 @RestController
 @RequestMapping("Reservation")
 public class ReservationController {
