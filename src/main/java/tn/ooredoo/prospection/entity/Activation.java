@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -57,5 +58,10 @@ public class Activation {
     @Column(name="Nationalite",nullable = true)
 
     private String nationalite;
+    
+    
+    @ManyToOne
+    private UserConseiller userc;
+
 
 }

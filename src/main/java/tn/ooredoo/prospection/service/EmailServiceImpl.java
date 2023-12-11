@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
 
@@ -23,7 +24,7 @@ import javax.mail.util.ByteArrayDataSource;
 
     @Override
 
-    public String sendMail(MultipartFile file, String to, String[] cc, String subject, String body) {
+    public String sendMailCC(MultipartFile file, String to, String[] cc, String subject, String body) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
@@ -46,4 +47,21 @@ import javax.mail.util.ByteArrayDataSource;
             throw new RuntimeException(e);
         }
     }
+
+	@Override
+	public String sendMailFile(MultipartFile file, String to, String subject, String body) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    public void sendMail(String to, String subject, String body) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(body, true);
+        javaMailSender.send(message);
+    }
+
+
 }

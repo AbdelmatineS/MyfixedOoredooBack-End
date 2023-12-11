@@ -9,8 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,5 +32,6 @@ public class Maps {
    private Etat etat;
     @Column(name="date_creation")
     private LocalDateTime date_creation;
-
+    @ManyToOne
+    private UserConseiller userc;
 }

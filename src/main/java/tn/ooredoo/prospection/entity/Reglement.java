@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,5 +39,6 @@ public class Reglement {
     private String nomdetenteur;
     private String ccv;
     private String email;
-
+    @ManyToOne
+    private UserConseiller userc;
 }

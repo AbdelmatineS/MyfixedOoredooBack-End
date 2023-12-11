@@ -2,14 +2,17 @@ package tn.ooredoo.prospection.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,30 +38,46 @@ public class DemandeInter implements Serializable {
 	
 	private LocalDateTime dateDemande;
 	
-	private String nature;
-	
 	private String type;
 	
+    private String Category;
+		
 	private String Abonnement;
 	
 	private Long msisdn;
 	
-	private String fullName;
+	//private Long msisdn;
 	
-	private String adresse;
+	//private String fullName;
 	
-	private Double latitude;
+	//private String adresse;
 	
-	private Double longitude;
+    //private String cgps;
+
 	
-	private Long contact;
+	//private Long contact;
 	
 	private LocalDateTime datePlanif;
 	
 	@ManyToOne
+    @JoinColumn(name = "user_st_id")
 	@JsonIgnore
-	private UserSousTraitant userst;
+	private UserSousTraitant user_st;
 	
+	@ManyToOne
+    @JoinColumn(name = "user_admin_id")
+	@JsonIgnore
+	private UserAdmin user_a;
 	
+	@OneToOne(mappedBy = "demande_prosp")
+	//@JsonIgnore
+	private Prospection prospection;
+	
+	@OneToOne(mappedBy = "demande_res", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	//@JsonIgnore
+	private Reservation reservation;
+	
+	@Column(name="status")
+	private String status;
 	
 }

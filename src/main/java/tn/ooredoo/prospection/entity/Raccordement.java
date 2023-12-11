@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,5 +27,6 @@ public class Raccordement {
     private String debit ;
     @Column(name = "mondatTT", columnDefinition = "LONGBLOB")
     private byte[] mondatTT;
-
+    @ManyToOne
+    private UserConseiller userc;
 }

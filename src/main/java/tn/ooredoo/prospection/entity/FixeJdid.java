@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,5 +37,6 @@ public class FixeJdid {
     @Column(name = "signature_image", columnDefinition = "BLOB")
     private byte[] signatureImage;
 
-
+    @ManyToOne
+    private UserConseiller userc;
 }

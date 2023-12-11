@@ -11,6 +11,7 @@ import tn.ooredoo.prospection.entity.Prospection;
 @Repository
 public interface ProspectionRepository extends JpaRepository<Prospection, Long>{
 
+	//List<Prospection> findByOrderByIdByUserConseillerDesc(Long id);
 	List<Prospection> findByOrderByIdDesc();
 	Prospection findByNumID(Long numID);
     List<Prospection> findByFullNameContainingIgnoreCase(String query);

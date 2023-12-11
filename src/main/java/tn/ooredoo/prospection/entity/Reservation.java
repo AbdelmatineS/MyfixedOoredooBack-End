@@ -1,7 +1,7 @@
 package tn.ooredoo.prospection.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,9 +37,9 @@ public class Reservation implements Serializable{
 	private Long id;
 	
 	//@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dateCreation;
+	private LocalDateTime dateCreation;
 	//@JsonFormat(pattern = "yyyy-MM-dd")
-	private LocalDate dateDernièreModification;
+	private LocalDateTime dateDernièreModification;
 	
 	private String contractNum;
 	private String boxType;
@@ -56,11 +60,25 @@ public class Reservation implements Serializable{
 	private String email;
 	private Long telOne;
 	private Long telTwo;
-	private Long latitude;
-	private Long longitude;
+	private Double latitude;
+	private Double longitude;
     
 	@Lob
 	private byte[] signatureImage;
 	
-
+	@ManyToOne
+	@JsonIgnore
+	private UserConseiller userc;
+	
+	@ManyToOne
+	@JsonIgnore
+	private UserAdmin user_a;
+	
+	@Column(name="status")
+	private String status;
+	
+	@OneToOne
+	@JsonIgnore
+	private DemandeInter demande_res;
+	
 }
