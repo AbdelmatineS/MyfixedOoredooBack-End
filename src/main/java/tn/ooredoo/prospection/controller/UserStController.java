@@ -30,7 +30,7 @@ import tn.ooredoo.prospection.repository.UserStRepository;
 import tn.ooredoo.prospection.security.JwtUtils;
 import tn.ooredoo.prospection.service.UserDetailsImpl;
 
-@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200","http://192.168.1.57:8100"}, maxAge = 3600,allowCredentials="true")
+@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200","http://192.168.29.1:8100","http://10.255.255.202:8100"}, maxAge = 3600,allowCredentials="true")
 @RestController
 @RequestMapping("/api/authSt")
 public class UserStController {

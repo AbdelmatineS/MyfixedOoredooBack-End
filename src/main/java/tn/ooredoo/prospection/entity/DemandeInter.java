@@ -38,9 +38,9 @@ public class DemandeInter implements Serializable {
 	
 	private LocalDateTime dateDemande;
 	
-	private String type;
+	private String category;
 	
-    private String Category;
+    private String nature;
 		
 	private String Abonnement;
 	

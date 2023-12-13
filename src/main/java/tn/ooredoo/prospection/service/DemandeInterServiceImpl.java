@@ -1,20 +1,18 @@
 package tn.ooredoo.prospection.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tn.ooredoo.prospection.entity.DemandeInter;
-import tn.ooredoo.prospection.entity.Prospection;
 import tn.ooredoo.prospection.entity.Reservation;
 import tn.ooredoo.prospection.entity.UserAdmin;
-import tn.ooredoo.prospection.entity.UserConseiller;
 import tn.ooredoo.prospection.entity.UserSousTraitant;
 import tn.ooredoo.prospection.paylaod.request.DemandeInterRequest;
 import tn.ooredoo.prospection.repository.DemandeInterRepository;
@@ -38,7 +36,7 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
 	@Autowired
 	ReservationRepository rRepo;
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(DemandeInterServiceImpl.class);
+	//private static final Logger LOGGER = LoggerFactory.getLogger(DemandeInterServiceImpl.class);
 
 	
 	@Override
@@ -82,23 +80,23 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
 		return dRepo.save(d);
 	}*/
 	
-	@Override
-	public DemandeInter addDemandeTest(DemandeInterRequest d) {
-		
-		
-		DemandeInter demande = new DemandeInter();
-		
-		demande.setAbonnement(d.getAbonnement());
-		demande.setCategory(d.getCategory());
-		demande.setType(d.getType());
-		demande.setType(d.getType());
-		demande.setDateDemande(LocalDateTime.now());
-
-		
-		
-
-		return dRepo.save(demande);
-	}
+//	@Override
+//	public DemandeInter addDemandeTest(DemandeInterRequest d) {
+//		
+//		
+//		DemandeInter demande = new DemandeInter();
+//		
+//		demande.setAbonnement(d.getAbonnement());
+//		demande.setCategory(d.getCategory());
+//		demande.setType(d.getType());
+//		demande.setType(d.getType());
+//		demande.setDateDemande(LocalDateTime.now());
+//
+//		
+//		
+//
+//		return dRepo.save(demande);
+//	}
 
 	@Override
 	public DemandeInter addDemandeInterRes(Long adminId, Long ssId,Long  resId, DemandeInter d) {
@@ -126,7 +124,7 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
 		//rRepo.save(r);
 		r.setDemande_res(d);
 		r.setUser_a(admin);
-		r.setStatus("Phase 2");
+		r.setStatus("Affecté");
 		d.setReservation(r);
 		d.setUser_a(admin);
 		d.setUser_st(userst);
@@ -134,6 +132,26 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
 		rRepo.save(r);
 		return dRepo.save(d);
 	}
+
+//	@Override
+//	public DemandeInter addDemandeTest(DemandeInterRequest d) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+	
+	
+    @Transactional
+    public DemandeInter updateDatePlanif(Long demandeId, LocalDateTime newDatePlanif) {
+        Optional<DemandeInter> demandeOptional = dRepo.findById(demandeId);
+        if (demandeOptional.isPresent()) {
+            DemandeInter demande = demandeOptional.get();
+            demande.setDatePlanif(newDatePlanif);
+            demande.getReservation().setStatus("Planifié");
+            return dRepo.save(demande);
+        } else {
+            throw new EntityNotFoundException("DemandeInter not found with id: " + demandeId);
+        }
+    }
 
 
 

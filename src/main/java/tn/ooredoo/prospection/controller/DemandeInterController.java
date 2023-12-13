@@ -6,6 +6,7 @@ import java.util.List;
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,8 +62,8 @@ public class DemandeInterController {
 		
         if (response != null && response.getId() != null) {
             try {
-				sendEmailAsync(d);
-	            sendSMSAsync(d);
+				sendEmailAffect(d);
+	            sendSMSAffect(d);
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}
@@ -68,7 +71,9 @@ public class DemandeInterController {
         } 
         else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }	}
+        }	
+        
+	}
 	
 //	@PostMapping("/addDemandeTest")
 //	@ResponseBody
@@ -108,27 +113,95 @@ public class DemandeInterController {
 		 dService.deleteDemandeInter(id);
 	}
 	
+    @PutMapping("/updateDatePlanif/{demandeId}")
+    public ResponseEntity<DemandeInter> updateDatePlanif(
+            @PathVariable Long demandeId,
+            @RequestParam("newDatePlanif") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime newDatePlanif
+    ) {
+        DemandeInter updatedDemande = dService.updateDatePlanif(demandeId, newDatePlanif);
+        if(updatedDemande!= null && updatedDemande.getDatePlanif() != null)
+        {
+        	
+            try {
+				sendEmailPlan(updatedDemande);
+	            sendSMSPlan(updatedDemande);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+            return ResponseEntity.ok(updatedDemande);
+        } 
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
+    /*
+		DemandeInter response = dService.addDemandeInterRes(adminId,ssId,resId, d);	
+		
+        if (response != null && response.getId() != null) {
+            try {
+				sendEmailAffect(d);
+	            sendSMSAffect(d);
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+            return ResponseEntity.ok(response.getId());
+        } 
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+     */
+	
     @Async
-    public void sendEmailAsync(DemandeInter d) throws MessagingException {
+    public void sendEmailAffect(DemandeInter d) throws MessagingException {
         // Send email
 		String to = d.getReservation().getEmail();
-		String subject = "Demande Assigné";
+		String subject = "Demande Attribuée";
 		String body = "Votre réservation N° "
 		+d.getReservation().getContractNum()+
-		" a été assigné à la société: "+d.getUser_st().getNomSt()+
+		" a été attribuée à la société: "+d.getUser_st().getNomSt()+
 		" avec succès. Vous pouvez contacter la société sous traitante via ce numéro: "
 		+d.getUser_st().getNumTel();
 		emailService.sendMail(to, subject, body);
     }
 
     @Async
-    public void sendSMSAsync(DemandeInter d) {
+    public void sendSMSAffect(DemandeInter d) {
         try {
             // Send SMS
             String smsMessage = "Votre réservation N° " +d.getReservation().getContractNum()+
-            		" a été assigné à la société: "+d.getUser_st().getNomSt()+
+            		" a été attribuée à la société: "+d.getUser_st().getNomSt()+
             		" avec succès. Vous pouvez contacter la société sous traitante via ce numéro: "
             		+d.getUser_st().getNumTel();
+            smsService.sendSMS(smsMessage, "+216" + d.getReservation().getTelOne().toString());
+        } catch (TwilioException e) {
+            // Handle SMS sending failure
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    @Async
+    public void sendEmailPlan(DemandeInter d) throws MessagingException {
+        // Send email
+		String to = d.getReservation().getEmail();
+		String subject = "Demande Planifiée";
+		String body = "Votre réservation N° "
+		+d.getReservation().getContractNum()+
+		" a été planifiée pour la date: "+d.getDatePlanif()+
+		" Vous pouvez contacter la société sous traitante via ce numéro: "
+		+d.getUser_st().getNumTel()+" pour plus d'information.";
+		emailService.sendMail(to, subject, body);
+    }
+
+    @Async
+    public void sendSMSPlan(DemandeInter d) {
+        try {
+            // Send SMS
+            String smsMessage = "Votre réservation N° " +d.getReservation().getContractNum()+
+            		" a été planifiée pour la date: "+d.getDatePlanif()+
+            		"  Vous pouvez contacter la société sous traitante via ce numéro: "
+            		+d.getUser_st().getNumTel()+"  pour plus d'information.";
             smsService.sendSMS(smsMessage, "+216" + d.getReservation().getTelOne().toString());
         } catch (TwilioException e) {
             // Handle SMS sending failure
