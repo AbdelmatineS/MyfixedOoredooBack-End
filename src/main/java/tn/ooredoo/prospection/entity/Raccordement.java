@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +32,8 @@ public class Raccordement {
     private byte[] mondatTT;
     @ManyToOne
     private UserConseiller userc;
+    
+	@OneToOne
+	@JsonIgnore
+	private Activation activation;
 }

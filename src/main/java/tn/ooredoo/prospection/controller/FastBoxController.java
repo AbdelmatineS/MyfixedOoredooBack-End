@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("FastBox")
+@RequestMapping("/api/FastBox")
 @CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.54:8100"})
 public class FastBoxController {
     @Autowired

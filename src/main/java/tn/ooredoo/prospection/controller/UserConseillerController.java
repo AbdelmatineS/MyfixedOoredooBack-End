@@ -34,7 +34,7 @@ import tn.ooredoo.prospection.repository.UserConRepository;
 import tn.ooredoo.prospection.security.JwtUtils;
 import tn.ooredoo.prospection.service.UserDetailsImpl;
 
-@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200","http://192.168.1.57:8100"}, maxAge = 3600,allowCredentials="true")
+//@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200","http://192.168.1.57:8100"}, maxAge = 3600,allowCredentials="true")
 @RestController
 @RequestMapping("/api/authCon")
 public class UserConseillerController {

@@ -64,4 +64,29 @@ import javax.mail.util.ByteArrayDataSource;
     }
 
 
+    @Override
+
+    public String sendMail(MultipartFile file, String to, String[] cc, String subject, String body) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom(fromEmail);
+            mimeMessageHelper.setTo(to);
+            mimeMessageHelper.setCc(cc);
+            mimeMessageHelper.setSubject(subject);
+            mimeMessageHelper.setText(body);
+
+            if (file != null && !file.isEmpty()) {
+                mimeMessageHelper.addAttachment(
+                        file.getOriginalFilename(),
+                        new ByteArrayResource(file.getBytes())
+                );
+            }
+
+            javaMailSender.send(mimeMessage);
+            return "Mail sent";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

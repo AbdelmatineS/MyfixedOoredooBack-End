@@ -21,5 +21,7 @@ public interface IUserService {
 	
 	public List<User> retrieveAll();
 	 public List<User> searchEntities(String attribute, String query);
-
+	 
+	 public void saveNotToken(Long userId, String notToken);
+	 public void updateNotToken(Long userId, String oldToken, String newToken);
 }

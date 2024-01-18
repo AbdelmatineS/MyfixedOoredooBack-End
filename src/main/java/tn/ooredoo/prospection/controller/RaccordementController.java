@@ -6,9 +6,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import tn.ooredoo.prospection.entity.Raccordement;
+import tn.ooredoo.prospection.service.ActivationService;
 import tn.ooredoo.prospection.service.RaccordementService;
 
 import java.util.List;
@@ -20,6 +22,11 @@ public class RaccordementController {
 
     @Autowired
     RaccordementService raccordementService;
+    
+    @Autowired
+    ActivationService activationService;
+    
+    
     @PostMapping("/add")
     public Raccordement add (@RequestBody Raccordement raccordement){
 
@@ -61,9 +68,18 @@ public class RaccordementController {
     Raccordement update(@RequestBody Raccordement rac , @PathVariable Integer id ) {
         return  raccordementService.update(rac,id);
     }
+    
     @DeleteMapping("delete/{id}")
     public void delete (@PathVariable Integer id ){
         raccordementService.delete(id);
     }
+    
+	@PreAuthorize("hasRole('ROLE_USERCONSEILLER')")
+	@PostMapping("/addRacc/{actId}")
+	@ResponseBody
+	ResponseEntity<Integer> addRacc(@PathVariable("actId") Integer actId,@RequestBody Raccordement r) {
+		Raccordement response = activationService.addRacc(actId,r);	
+		return ResponseEntity.ok(response.getId());
+	}
 
 }

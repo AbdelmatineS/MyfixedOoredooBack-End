@@ -106,10 +106,10 @@ public class Prospection implements Serializable{
 	
 	@ManyToOne
 	@JsonIgnore
-	private UserAdmin user_a;
+	private UserAdmin usera;
 	
-	@OneToOne
-	@JsonIgnore
-	private DemandeInter demande_prosp;
+//	@OneToOne
+//	@JsonIgnore
+//	private DemandeInter demande_prosp;
 
 }

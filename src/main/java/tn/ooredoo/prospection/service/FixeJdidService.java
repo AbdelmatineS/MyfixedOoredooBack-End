@@ -4,6 +4,7 @@ package tn.ooredoo.prospection.service;
 import java.util.List;
 
 import tn.ooredoo.prospection.entity.FixeJdid;
+import tn.ooredoo.prospection.entity.Reservation;
 
 public interface FixeJdidService {
     public FixeJdid addFixeJdid (FixeJdid fixeJdid);
@@ -15,6 +16,8 @@ public interface FixeJdidService {
 
     List<String> getAvailableMsisdns();
     FixeJdid getById(Integer id);
+	void deleteF(Integer id);
+	public FixeJdid getLastFix();
 
 }
 

@@ -1,13 +1,19 @@
 package tn.ooredoo.prospection.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +28,12 @@ public class Activation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+	//@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDateTime dateCreation;
+	//@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDateTime dateDernièreModification;
+	
     @Column(name="Nom")
 
     private String Nom ;
@@ -61,7 +73,33 @@ public class Activation {
     
     
     @ManyToOne
+    @JsonIgnore
     private UserConseiller userc;
+    
+	private Double latitude;
+	private Double longitude;
+    
+	@OneToOne
+	@JsonIgnore
+	private DemandeInter demande_act;
 
+	@OneToOne(mappedBy = "activation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Reglement reg;
+	
+	@OneToOne(mappedBy = "activation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	//@JsonIgnore
+	private FixeJdid fix;
+	
+	@OneToOne(mappedBy = "activation", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Raccordement racc;
+	
+	@ManyToOne
+	@JsonIgnore
+	private UserAdmin usera;
+	
+	@Column(name="status")
+	private String status;
 
 }

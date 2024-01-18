@@ -6,9 +6,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import tn.ooredoo.prospection.entity.FixeJdid;
+import tn.ooredoo.prospection.entity.Reservation;
+import tn.ooredoo.prospection.service.ActivationService;
 import tn.ooredoo.prospection.service.FixeJdidService;
 
 import java.util.Base64;
@@ -18,10 +21,14 @@ import java.util.Map;
 
 @CrossOrigin(origins = {"http://localhost:8100", "http://172.19.3.54:8100"})
 @RestController
-@RequestMapping("FixeJdid")
+@RequestMapping("/api/FixeJdid")
 public class FixeJdidController {
     @Autowired
     private FixeJdidService fixeJdidService;
+    
+    @Autowired
+    ActivationService activationService;
+    
     private FixeJdid fixeJdid;
     public FixeJdidController(FixeJdidService fixeJdidService) {
         this.fixeJdidService = fixeJdidService;
@@ -44,16 +51,20 @@ public class FixeJdidController {
         fixeJdid.setSignatureImage(userFixeJdid.getSignatureImage());
         return fixeJdidService.addFixeJdid(fixeJdid);
     }
-    @PostMapping("/add")
-    public ResponseEntity<FixeJdid> add(@RequestBody Map<String, Object> requestData) {
+    @PutMapping("/add/{fixId}")
+    public ResponseEntity<FixeJdid> add(@PathVariable("fixId") Integer fixId, @RequestBody Map<String, Object> requestData) {
         try {
+        	FixeJdid f = fixeJdidService.getById(fixId);
+
+            Integer id = f.getActivation().getId();
             String signatureDataURL = (String) requestData.get("signature");
             String base64Image = signatureDataURL.replace("data:image/png;base64,", "");
             byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-            fixeJdid.setSignatureImage(imageBytes);
+            f.setSignatureImage(imageBytes);
             // Copiez d'autres propriétés de requestData vers superBox
-            FixeJdid addedFixJdid= fixeJdidService.addFixeJdid(fixeJdid);
-            return ResponseEntity.ok().body(addedFixJdid);
+            activationService.addfixe(id, f);
+            //fixeJdidService.addFixeJdid(f);
+            return ResponseEntity.ok().body(f);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
@@ -124,6 +135,27 @@ public class FixeJdidController {
     public List<String> getAvailableMsisdns() {
         List<String> availableMsisdns = fixeJdidService.getAvailableMsisdns();
         return availableMsisdns;
+    }
+    
+	@PreAuthorize("hasRole('ROLE_USERCONSEILLER')")
+	@PostMapping("/addfixe/{actId}")
+	@ResponseBody
+	ResponseEntity<Integer> addfixe(@PathVariable("actId") Integer actId,@RequestBody FixeJdid f) {
+		FixeJdid response = activationService.addfixe(actId,f);	
+		return ResponseEntity.ok(response.getId());
+	}
+	
+    @DeleteMapping("delete/{id}")
+    public void delete (@PathVariable Integer id ){
+        activationService.deleteF(id);
+    }
+    
+    
+	//@PreAuthorize("hasRole('ROLE_USERCONSEILLER')")
+    @GetMapping("/getLastFix")
+    public ResponseEntity<?> getLastReservation() {
+        FixeJdid lastFix = fixeJdidService.getLastFix();
+        return ResponseEntity.ok(lastFix);
     }
 
 

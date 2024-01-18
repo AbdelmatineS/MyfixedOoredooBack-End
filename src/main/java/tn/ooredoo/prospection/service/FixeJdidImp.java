@@ -56,5 +56,15 @@ public class FixeJdidImp implements FixeJdidService {
         return msisdn != null && !msisdn.isEmpty();
 
     }
+    
+    @Override
+    public void deleteF(Integer id) {
+    	fixeJdidRepo.deleteById(id);
+    }
+
+	@Override
+	public FixeJdid getLastFix() {
+		return fixeJdidRepo.findTopByOrderByIdDesc() ;
+	}
 
 }

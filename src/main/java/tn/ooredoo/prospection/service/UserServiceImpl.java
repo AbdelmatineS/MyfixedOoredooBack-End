@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import tn.ooredoo.prospection.entity.ERole;
 import tn.ooredoo.prospection.entity.Role;
 import tn.ooredoo.prospection.entity.User;
+import tn.ooredoo.prospection.entity.NotificationToken;
 import tn.ooredoo.prospection.paylaod.request.SignUpRequest;
 import tn.ooredoo.prospection.paylaod.response.MessageResponse;
 import tn.ooredoo.prospection.repository.RoleRepository;
@@ -122,5 +124,35 @@ public class UserServiceImpl implements IUserService{
 
 	        return Collections.emptyList();
 		}
+
+		@Override
+		public void saveNotToken(Long userId, String notToken) {
+	        User user = userRepository.findById(userId)
+	                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+	        NotificationToken newNotToken = new NotificationToken();
+
+	        newNotToken.setToken(notToken);
+	        newNotToken.setUser(user);
+
+	        user.getNotTokens().add(newNotToken);
+
+	        userRepository.save(user);			
+		}
+		
+		@Override
+	    public void updateNotToken(Long userId, String oldToken, String newToken) {
+	        
+			User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+			
+			List<NotificationToken> tokens = user.getNotTokens();
+
+	        for (NotificationToken token : tokens) {
+	            if (token.getToken().equals(oldToken)) {
+	                token.setToken(newToken);
+	                return;
+	            }
+	        }
+	    }
 
 }

@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -72,13 +71,13 @@ public class Reservation implements Serializable{
 	
 	@ManyToOne
 	@JsonIgnore
-	private UserAdmin user_a;
+	private UserAdmin usera;
 	
 	@Column(name="status")
 	private String status;
 	
-	@OneToOne
-	@JsonIgnore
-	private DemandeInter demande_res;
+//	@OneToOne
+//	@JsonIgnore
+//	private DemandeInter demande_res;
 	
 }

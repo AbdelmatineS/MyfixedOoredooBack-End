@@ -1,6 +1,7 @@
 package tn.ooredoo.prospection.security;
 
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 import tn.ooredoo.prospection.service.UserDetailsServiceImpl;
@@ -63,15 +67,18 @@ public class WebSecurityConfig implements Serializable{
 	    http.cors().and().csrf().disable()
 	        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 	        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-	        .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+	        .authorizeRequests()
+	        /*
+	        .antMatchers("/api/auth/**").permitAll()
 	        .antMatchers("/api/test/**").permitAll()
 	        .antMatchers("/api/authSt/**").permitAll()
 	        .antMatchers("/api/authUser/**").permitAll()
 	        .antMatchers("/api/authCon/**").permitAll()
 	        .antMatchers("/api/DemandeInter/**").permitAll()
 	        .antMatchers("/api/authAdmin/**").permitAll()
-	        .antMatchers("/api/Prospection/**").permitAll()
+	        .antMatchers("/api/Prospection/**").permitAll()*/
 	        .antMatchers("/api/Prospection/*/*").permitAll()
+	        .antMatchers("/api/*/**").permitAll()
 
 
 	        .anyRequest().authenticated();
@@ -82,4 +89,37 @@ public class WebSecurityConfig implements Serializable{
 	    
 	    return http.build();
 	  }
+	  
+	  @Bean
+	  WebMvcConfigurer corsConfigurer() {
+		  return new WebMvcConfigurer() {
+			    @Override
+			    public void addCorsMappings(CorsRegistry registry) {
+			        registry.addMapping("/**")
+			                .allowedOrigins("http://localhost:8100"
+			                		,"http://172.19.3.136:8101"
+			                		,"http://localhost:8101"
+			                		,"http://localhost:4200"
+			                		,"http://192.168.1.117:45779"
+			                		,"http://192.168.1.33:8100")
+			                		
+			                .allowedMethods("GET", "POST", "PUT", "DELETE")
+			                .allowedHeaders("*")
+			                .allowCredentials(true)
+			                .maxAge(3600);
+			        		
+			    }
+		  };
+	  }
+	  
+
+
+
 }
+
+/*
+ * "http://localhost:8100",
+ * "http://localhost:8101",
+ * "http://localhost:4200",
+ * "http://192.168.1.57:8100"
+ */

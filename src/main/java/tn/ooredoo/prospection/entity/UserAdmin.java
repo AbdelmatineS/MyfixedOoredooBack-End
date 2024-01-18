@@ -24,13 +24,16 @@ public class UserAdmin extends User implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(mappedBy = "user_a")
+	@OneToMany(mappedBy = "usera")
 	private Set<Reservation> reservations;
 	
-	@OneToMany(mappedBy = "user_a")
+	@OneToMany(mappedBy = "usera")
+	private Set<Activation> activations;
+	
+	@OneToMany(mappedBy = "usera")
 	private Set<Prospection> prospections;
 	
-	@OneToMany(mappedBy = "user_a")
+	@OneToMany(mappedBy = "usera")
 	private Set<DemandeInter> demandes;
 	
 	  public UserAdmin(Long id, String fullName, String username, String email, String password, Long numTel, String zone) {

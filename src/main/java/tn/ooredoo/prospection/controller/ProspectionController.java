@@ -22,7 +22,7 @@ import tn.ooredoo.prospection.service.IProspectionService;
 
 @RestController
 @RequestMapping("/api/Prospection")
-@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200","http://192.168.1.57:8100"}, maxAge = 3600, allowCredentials="true")
+//@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200","http://192.168.1.57:8100"}, maxAge = 3600, allowCredentials="true")
 public class ProspectionController {
 	
 	@Autowired

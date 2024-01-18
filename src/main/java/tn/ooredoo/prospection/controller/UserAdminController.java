@@ -35,7 +35,7 @@ import tn.ooredoo.prospection.security.JwtUtils;
 import tn.ooredoo.prospection.service.UserDetailsImpl;
 
 
-@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200"}, maxAge = 3600,allowCredentials="true")
+//@CrossOrigin(origins = {"http://localhost:8100","http://localhost:8101","http://localhost:4200"}, maxAge = 3600,allowCredentials="true")
 @RestController
 @RequestMapping("/api/authAdmin")
 public class UserAdminController {
