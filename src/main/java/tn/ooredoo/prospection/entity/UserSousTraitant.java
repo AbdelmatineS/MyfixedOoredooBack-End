@@ -28,6 +28,9 @@ public class UserSousTraitant  extends User implements Serializable{
 	private String Etat;
 	  
 	private String NomSt;
+	
+	@OneToMany (mappedBy = "userst")
+	private Set<CalEvent> calEvent;
 	  
 	@OneToMany (mappedBy = "userst")
 	private Set<DemandeInter> demandes;

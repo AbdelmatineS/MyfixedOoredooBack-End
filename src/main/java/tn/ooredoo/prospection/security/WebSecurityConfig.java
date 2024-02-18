@@ -101,7 +101,8 @@ public class WebSecurityConfig implements Serializable{
 			                		,"http://localhost:8101"
 			                		,"http://localhost:4200"
 			                		,"http://192.168.1.117:45779"
-			                		,"http://192.168.1.33:8100")
+			                		,"http://192.168.1.19:8101"
+			                		,"http://192.168.1.165:8100")
 			                		
 			                .allowedMethods("GET", "POST", "PUT", "DELETE")
 			                .allowedHeaders("*")

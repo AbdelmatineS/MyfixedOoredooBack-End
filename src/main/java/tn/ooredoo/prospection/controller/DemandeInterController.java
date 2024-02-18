@@ -64,11 +64,13 @@ public class DemandeInterController {
 	        @RequestBody DemandeInter d) 
 	{
 		DemandeInter response = dService.addDemandeInterAct(adminId,ssId,actId, d);	
-		
+
         if (response != null && response.getId() != null) {
             try {
 				sendEmailAffect(d);
 	            sendSMSAffect(d);
+
+	            
 			} catch (MessagingException e) {
 				e.printStackTrace();
 			}

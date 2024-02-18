@@ -89,6 +89,8 @@ public class DemandeInter implements Serializable {
 	@OneToMany(mappedBy = "demande")
 	private Set<FicheInter> fiches;
 	
+	@OneToMany (mappedBy = "demande")
+	private Set<CalEvent> calEvent;
 	
 	
 }

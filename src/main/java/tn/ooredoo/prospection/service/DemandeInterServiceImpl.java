@@ -181,9 +181,9 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
  
                 final String title = "Affectation Demande";
 
-                final String body = "Votre contract numéro: "
+                final String body = "La demande numéro: "
             			+demande.getActivation().getFix().getContractNum()
-            			+"vous à été affecté.\n prière de planifié une date avec le client pendant 48h ou elle sera retiré de votre responsabilité.";
+            			+"a bien été planifié avec succés";
                 final List<NotificationToken> tokens = demande.getUserst().getNotTokens();
         
                 for (NotificationToken token : tokens) {
@@ -223,7 +223,7 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
                         String contractNum = act.getFix().getContractNum();
                         if (contractNum != null) {
                         	List<NotificationToken> notTokens = demande.getUserst().getNotTokens();
-                        	final String body = "Le numéro de demande: "
+                        	final String body = "La demande numéro: "
                         			+demande.getActivation().getFix().getContractNum()
                         			+" affecté le "+demande.getDateDemande()+" à votre société a été retiré de votre responsabilité suite au dépassement de l'échéance de planification de 48 heures avec votre client.";
                             if (notTokens != null && !notTokens.isEmpty()) {
@@ -254,7 +254,24 @@ public class DemandeInterServiceImpl implements IDemandeInterService{
 		UserSousTraitant userst = usRepo.findById(ssId).orElse(null);
 		Activation a = aRepo.findById(actId).orElse(null);
 
+    	List<NotificationToken> notTokens = userst.getNotTokens();
+    	final String title = "Nouvelle demande";
+    	final String body = "La demande d'installation numéro: "
+    			+a.getFix().getContractNum()
+    			+"à été affecté à votre société.\n prière de planifié une date avec le client pendant 48h ou elle sera retiré de votre responsabilité.";
+        if (notTokens != null && !notTokens.isEmpty()) {
+            for (NotificationToken token : notTokens) {
+            	
+            	NotificationMessage not_message = new NotificationMessage();
+                not_message.setRecipientToken(token.getToken());
+                not_message.setTitle(title);
+                not_message.setBody(body);
+                
+                nms.sendNotificationByToken(not_message);
 
+            }
+        } 
+		
 		a.setDemande_act(d);
 		a.setUsera(admin);
 		a.setStatus("SET");
